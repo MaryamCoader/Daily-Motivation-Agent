@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"E:\\\\Daily Motivation Agent\\\\backend\" \"E:\\\\Daily Motivation Agent\\\\frontend\" \"E:\\\\Daily Motivation Agent\\\\static\\\\audio\" \"E:\\\\Daily Motivation Agent\\\\prompts\")",
+      "Bash(dir:*)",
+      "Bash(python:*)",
+      "Bash(./venv/Scripts/pip install:*)",
+      "Bash(./venv/Scripts/python:*)",
+      "Bash(curl:*)"
+    ]
+  }
+}

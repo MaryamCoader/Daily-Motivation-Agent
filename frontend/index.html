@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyMotivationAgent - Your Daily Spark</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
+    <link rel="stylesheet" href="/frontend/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="min-h-screen overflow-x-hidden">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 animated-bg"></div>
+
+    <!-- Floating Particles -->
+    <div id="particles" class="fixed inset-0 pointer-events-none overflow-hidden">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Glowing Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center space-x-3 group cursor-pointer">
+                    <div class="logo-icon">
+                        <i class="fas fa-bolt text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold text-white font-display tracking-tight">Daily<span class="gradient-text">Motivation</span></span>
+                        <span class="block text-xs text-white/50 font-light tracking-widest uppercase">AI Agent</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <select id="languageSelect" class="modern-select">
+                            <option value="English">English</option>
+                            <option value="Urdu">Urdu</option>
+                        </select>
+                        <i class="fas fa-globe select-icon"></i>
+                    </div>
+                    <button id="aboutBtn" class="nav-btn">
+                        <i class="fas fa-info-circle mr-2"></i>About
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10 pt-28 pb-16 px-4 min-h-screen flex items-center justify-center">
+        <div class="max-w-5xl w-full">
+            <!-- Hero Section -->
+            <div class="text-center mb-12 animate-fade-in-down">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 font-display">
+                    Your Daily <span class="gradient-text-animated">Inspiration</span>
+                </h1>
+                <p class="text-lg text-white/60 max-w-2xl mx-auto">
+                    AI-powered motivation to fuel your journey towards greatness
+                </p>
+            </div>
+
+            <!-- Motivation Card -->
+            <div id="motivationCard" class="motivation-card group">
+                <!-- Animated Border -->
+                <div class="card-border"></div>
+
+                <!-- Background Image -->
+                <div id="bgImage" class="card-bg" style="background-image: url('https://picsum.photos/1200/800?random=1');">
+                    <div class="card-overlay"></div>
+                </div>
+
+                <!-- Decorative Elements -->
+                <div class="card-glow"></div>
+                <div class="quote-decoration quote-decoration-top">"</div>
+                <div class="quote-decoration quote-decoration-bottom">"</div>
+
+                <!-- Content -->
+                <div class="relative z-10 p-10 md:p-16 min-h-[450px] flex flex-col justify-center">
+                    <!-- Loading State -->
+                    <div id="loadingState" class="text-center hidden">
+                        <div class="modern-loader">
+                            <div class="loader-ring"></div>
+                            <div class="loader-ring"></div>
+                            <div class="loader-ring"></div>
+                            <i class="fas fa-sparkles loader-icon"></i>
+                        </div>
+                        <p class="text-white/70 text-lg mt-6 loading-text">Crafting your inspiration...</p>
+                    </div>
+
+                    <!-- Quote Content -->
+                    <div id="quoteContent" class="text-center">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span class="text-sm text-white/60 font-medium">AI Generated</span>
+                        </div>
+
+                        <h2 id="quoteText" class="quote-text">
+                            Click "Generate" to receive your daily spark of motivation
+                        </h2>
+
+                        <div class="divider">
+                            <span class="divider-icon"><i class="fas fa-star"></i></span>
+                        </div>
+
+                        <p id="messageText" class="message-text">
+                            Your journey to greatness begins with a single step. Let AI inspire that step today.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mt-10">
+                <button id="newQuoteBtn" class="btn-generate group">
+                    <span class="btn-bg"></span>
+                    <span class="btn-content">
+                        <i class="fas fa-wand-magic-sparkles mr-2 group-hover:rotate-12 transition-transform"></i>
+                        Generate Quote
+                    </span>
+                </button>
+
+                <button id="copyBtn" class="btn-action">
+                    <i class="fas fa-copy"></i>
+                    <span>Copy</span>
+                </button>
+
+                <button id="downloadBtn" class="btn-action" disabled>
+                    <i class="fas fa-download"></i>
+                    <span>Download</span>
+                </button>
+
+                <button id="shareBtn" class="btn-action">
+                    <i class="fas fa-share-nodes"></i>
+                    <span>Share</span>
+                </button>
+            </div>
+
+            <!-- Audio Player -->
+            <div id="audioContainer" class="mt-10 hidden">
+                <div class="audio-wrapper">
+                    <div class="audio-visualizer">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <audio id="audioPlayer" controls class="modern-audio">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="stats-container mt-16">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-quote-left"></i></div>
+                    <div class="stat-value" id="totalQuotes">1000+</div>
+                    <div class="stat-label">Quotes Generated</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-value">50K+</div>
+                    <div class="stat-label">Users Inspired</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-language"></i></div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-8 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-white/40 text-sm">
+                Powered by <span class="gradient-text">OpenAI GPT-4.1</span> | Made with <i class="fas fa-heart text-rose-500"></i> for Maryam Mumtaz
+            </p>
+        </div>
+    </footer>
+
+    <!-- Welcome Modal -->
+    <div id="welcomeModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-content welcome-modal">
+                <div class="modal-glow"></div>
+                <div class="welcome-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h2 class="modal-title">Welcome to <span class="gradient-text">DailyMotivation</span></h2>
+                <p class="modal-description">Ready to supercharge your day with AI-powered inspiration?</p>
+
+                <div class="welcome-features">
+                    <div class="feature-item">
+                        <i class="fas fa-brain"></i>
+                        <span>AI Generated</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-volume-high"></i>
+                        <span>Voice Output</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-language"></i>
+                        <span>Multi-Language</span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="generateFromWelcome" class="btn-generate">
+                        <span class="btn-bg"></span>
+                        <span class="btn-content">
+                            <i class="fas fa-bolt mr-2"></i>Get Started
+                        </span>
+                    </button>
+                    <button id="closeWelcome" class="btn-ghost">Maybe Later</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal-overlay hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-xl" id="aboutOverlay"></div>
+        <div class="modal-container">
+            <div class="modal-content about-modal">
+                <button id="closeAbout" class="modal-close">
+                    <i class="fas fa-xmark"></i>
+                </button>
+                <div class="modal-header">
+                    <h2 class="modal-title"><i class="fas fa-info-circle mr-3"></i>About</h2>
+                </div>
+                <div id="aboutContent" class="prose prose-invert">
+                    Loading...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal-overlay hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-xl"></div>
+        <div class="modal-container">
+            <div class="modal-content error-modal">
+                <div class="error-icon">
+                    <i class="fas fa-triangle-exclamation"></i>
+                </div>
+                <h2 class="modal-title">Oops! Something went wrong</h2>
+                <p id="errorMessage" class="modal-description"></p>
+                <button id="closeError" class="btn-generate">
+                    <span class="btn-bg"></span>
+                    <span class="btn-content">
+                        <i class="fas fa-redo mr-2"></i>Try Again
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Copied to clipboard!</span>
+    </div>
+
+    <script src="/frontend/app.js"></script>
+</body>
+</html>
