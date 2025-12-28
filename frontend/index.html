@@ -46,6 +46,19 @@
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="relative">
+                        <select id="categorySelect" class="modern-select">
+                            <option value="general">General</option>
+                            <option value="success">Success</option>
+                            <option value="health">Health & Fitness</option>
+                            <option value="relationships">Relationships</option>
+                            <option value="confidence">Confidence</option>
+                            <option value="career">Career</option>
+                            <option value="gratitude">Gratitude</option>
+                            <option value="mindfulness">Mindfulness</option>
+                        </select>
+                        <i class="fas fa-star select-icon"></i>
+                    </div>
+                    <div class="relative">
                         <select id="languageSelect" class="modern-select">
                             <option value="English">English</option>
                             <option value="Urdu">Urdu</option>
@@ -214,16 +227,30 @@
                         <span>Voice Output</span>
                     </div>
                     <div class="feature-item">
-                        <i class="fas fa-language"></i>
-                        <span>Multi-Language</span>
+                        <i class="fas fa-layer-group"></i>
+                        <span>8 Categories</span>
                     </div>
+                </div>
+
+                <div style="margin: 24px 0;">
+                    <label class="block text-white/70 text-sm mb-2 text-center">Choose your motivation type:</label>
+                    <select id="welcomeCategorySelect" class="modern-select" style="width: 100%; max-width: 300px; margin: 0 auto; display: block;">
+                        <option value="general">General Motivation</option>
+                        <option value="success">Success & Achievement</option>
+                        <option value="health">Health & Fitness</option>
+                        <option value="relationships">Relationships & Love</option>
+                        <option value="confidence">Confidence & Self-Belief</option>
+                        <option value="career">Career & Business</option>
+                        <option value="gratitude">Gratitude & Positivity</option>
+                        <option value="mindfulness">Mindfulness & Peace</option>
+                    </select>
                 </div>
 
                 <div class="modal-actions">
                     <button id="generateFromWelcome" class="btn-generate">
                         <span class="btn-bg"></span>
                         <span class="btn-content">
-                            <i class="fas fa-bolt mr-2"></i>Get Started
+                            <i class="fas fa-bolt mr-2"></i>Yes, Generate!
                         </span>
                     </button>
                     <button id="closeWelcome" class="btn-ghost">Maybe Later</button>

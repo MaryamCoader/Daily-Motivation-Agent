@@ -17,8 +17,10 @@ const elements = {
     shareBtn: document.getElementById('shareBtn'),
     aboutBtn: document.getElementById('aboutBtn'),
 
-    // Language
+    // Language & Category
     languageSelect: document.getElementById('languageSelect'),
+    categorySelect: document.getElementById('categorySelect'),
+    welcomeCategorySelect: document.getElementById('welcomeCategorySelect'),
 
     // Audio
     audioContainer: document.getElementById('audioContainer'),
@@ -57,8 +59,8 @@ const md = window.markdownit ? window.markdownit() : null;
 // API Functions
 // =====================
 
-async function fetchMotivation(language = 'English') {
-    const response = await fetch(`/api/motivation?language=${encodeURIComponent(language)}`);
+async function fetchMotivation(language = 'English', category = 'general') {
+    const response = await fetch(`/api/motivation?language=${encodeURIComponent(language)}&category=${encodeURIComponent(category)}`);
     if (!response.ok) {
         throw new Error('Failed to fetch motivation');
     }
@@ -199,10 +201,11 @@ async function generateMotivation() {
     if (isLoading) return;
 
     const language = elements.languageSelect.value;
+    const category = elements.categorySelect.value;
     showLoading();
 
     try {
-        const data = await fetchMotivation(language);
+        const data = await fetchMotivation(language, category);
 
         if (data.success) {
             displayMotivation(data);
@@ -323,6 +326,10 @@ elements.aboutBtn.addEventListener('click', () => {
 
 // Welcome modal buttons
 elements.generateFromWelcome.addEventListener('click', () => {
+    // Sync the selected category from welcome modal to main navbar
+    const welcomeCategory = elements.welcomeCategorySelect.value;
+    elements.categorySelect.value = welcomeCategory;
+
     hideWelcomeModal();
     generateMotivation();
 });
@@ -392,14 +399,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update quote counter
     updateQuoteCounter();
 
-    // Show welcome modal on first visit
-    const hasVisited = localStorage.getItem('hasVisited');
-    if (!hasVisited) {
-        showWelcomeModal();
-        localStorage.setItem('hasVisited', 'true');
-    } else {
-        hideWelcomeModal();
-    }
+    // Always show welcome modal for permission (removed localStorage check)
+    showWelcomeModal();
 
     // Preload background image
     updateBackground();

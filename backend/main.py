@@ -55,19 +55,20 @@ async def serve_frontend(filename: str):
 
 
 @app.get("/api/motivation")
-async def get_motivation(language: str = "English"):
+async def get_motivation(language: str = "English", category: str = "general"):
     """
     Generate motivational quote and message with TTS
 
     Args:
         language: Language for content (English or Urdu)
+        category: Motivation category (general, success, health, etc.)
 
     Returns:
         JSON with quote, message, and audio URL
     """
     try:
         # Generate motivation content
-        motivation = await agent.generate_motivation(language)
+        motivation = await agent.generate_motivation(language, category)
 
         # Generate TTS audio
         full_text = f"{motivation['quote']}. {motivation['message']}"
@@ -81,6 +82,7 @@ async def get_motivation(language: str = "English"):
             "quote": motivation["quote"],
             "message": motivation["message"],
             "language": motivation["language"],
+            "category": motivation.get("category", "general"),
             "provider": motivation["provider"],
             "audio_url": audio_result.get("audio_url")
         }

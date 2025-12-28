@@ -23,6 +23,18 @@ from backend.config import (
 class DailyMotivationAgent:
     """AI-powered agent for generating motivational content"""
 
+    # Category descriptions
+    CATEGORIES = {
+        "general": "General motivation covering growth, resilience, self-belief, taking action, and success mindset",
+        "success": "Success and achievement - reaching goals, perseverance, winning mindset, accomplishments",
+        "health": "Health and fitness - physical wellness, exercise, nutrition, healthy habits, energy",
+        "relationships": "Relationships and love - building connections, empathy, communication, meaningful bonds",
+        "confidence": "Confidence and self-belief - self-worth, overcoming self-doubt, inner strength, courage",
+        "career": "Career and business - professional growth, leadership, entrepreneurship, work success",
+        "gratitude": "Gratitude and positivity - appreciation, thankfulness, positive mindset, joy",
+        "mindfulness": "Mindfulness and peace - inner calm, meditation, present moment awareness, mental clarity"
+    }
+
     def __init__(self):
         self.provider = DEFAULT_MODEL_PROVIDER
         self._setup_clients()
@@ -62,9 +74,14 @@ MESSAGE: [Your encouraging message here]
 Make it uplifting, positive, and actionable. Focus on themes like growth, resilience, success, self-belief, and taking action.
             """)
 
-    def _render_prompt(self, language: str = "English") -> str:
-        """Render the prompt with the specified language"""
-        return self.prompt_template.render(language=language)
+    def _render_prompt(self, language: str = "English", category: str = "general") -> str:
+        """Render the prompt with the specified language and category"""
+        category_description = self.CATEGORIES.get(category, self.CATEGORIES["general"])
+        return self.prompt_template.render(
+            language=language,
+            category=category,
+            category_description=category_description
+        )
 
     def _parse_response(self, response_text: str) -> dict:
         """Parse the AI response to extract quote and message"""
@@ -91,9 +108,9 @@ Make it uplifting, positive, and actionable. Focus on themes like growth, resili
 
         return {"quote": quote, "message": message}
 
-    async def generate_motivation(self, language: str = "English") -> dict:
+    async def generate_motivation(self, language: str = "English", category: str = "general") -> dict:
         """Generate motivational quote and message"""
-        prompt = self._render_prompt(language)
+        prompt = self._render_prompt(language, category)
 
         try:
             if self.provider == "gemini" and self.gemini_model:
@@ -114,6 +131,7 @@ Make it uplifting, positive, and actionable. Focus on themes like growth, resili
 
             result = self._parse_response(response_text)
             result["language"] = language
+            result["category"] = category
             result["provider"] = self.provider
             return result
 
